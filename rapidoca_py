@@ -1,0 +1,70 @@
+import pygame
+
+print("Welcome to Rapido app.")
+
+# Available rides
+rides = {
+    "bike": {"fare_per_km": 20, "eta": 5, "surge": 10},
+    "car": {"fare_per_km": 20, "eta": 3, "surge": 30},
+    "ac_car": {"fare_per_km": 20, "eta": 2, "surge": 100},
+}
+
+# Surge flag
+surge = False
+
+# Language selection
+languages = ["english", "telugu", "hindi"]
+language = input(
+    "Please choose the language. (English, Telugu, Hindi): ").lower()
+
+if language not in languages:
+    raise ValueError("Invalid language. Please choose from the list provided.")
+
+# Login process
+num = input("Please enter your phone number to login: ")
+if not num.isdigit():
+    raise ValueError("Phone number should only contain digits.")
+
+password = input("Please enter your password to login: ")
+confirm_password = input("Please confirm your password: ")
+
+if password != confirm_password:
+    raise ValueError("Passwords do not match. Try again.")
+
+# OTP verification
+otp = 12345
+otp_entered = int(input("Please enter the OTP (12345): "))
+
+if otp_entered != otp:
+    raise ValueError("Incorrect OTP. Try again.")
+
+# Ride booking
+drop = input("Please enter your drop location: ")
+km = int(input("Please enter the distance in KM's: "))
+
+vec = input(
+    "Please enter the ride you choose from the list (bike, car, ac_car): ").lower()
+
+if vec not in rides:
+    raise ValueError("Invalid ride vehicle. Try again.")
+
+ride_info = rides[vec]
+fare = ride_info["fare_per_km"] * km
+
+if surge:
+    fare += ride_info["surge"]
+
+print(f"You have chosen {vec}. Your ride is on the way.")
+print(
+    f"Your ride will arrive in {ride_info['eta']} minutes and the fare is Rs {fare}.")
+
+# Ride completion
+while True:
+    reached = input("Have you reached your destination? (yes/no): ").lower()
+    if reached == "yes":
+        print("Thank you for riding with Rapido. Have a nice day.")
+        break
+    elif reached == "no":
+        print("Please reach your destination safely.")
+    else:
+        print("Invalid input. Please enter yes or no.")
